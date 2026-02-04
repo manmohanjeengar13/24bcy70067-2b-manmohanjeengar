@@ -1,61 +1,54 @@
-🛍️ Dynamic Product Filter
+# 🛍️ Dynamic Product Filter
 
-Next.js • React • TypeScript • Tailwind • Shadcn UI
+**Next.js • React • TypeScript • Tailwind • Shadcn UI**
 
-A modern web application that allows users to filter and sort products dynamically using dropdown controls.
+A modern web application that allows users to filter and sort products dynamically using dropdown controls.  
 This project demonstrates React state management, reusable components, array filtering, sorting, and responsive UI design.
 
-🌐 Features
+---
 
-Filter products by category
+## 🌐 Features
 
-Sort products by price (Low → High / High → Low)
+- Filter products by category
+- Sort products by price (Low → High / High → Low)
+- Responsive product cards
+- Smooth hover animations
+- Instant UI updates using React state
 
-Responsive product cards
+---
 
-Smooth hover animations
-
-Instant UI updates using React state
-
-🎯 Project Aim
+## 🎯 Project Aim
 
 To build a dynamic product filter that demonstrates:
 
-React state management
+- React state management  
+- Controlled components  
+- Reusable UI components  
+- Array filtering & sorting  
+- Responsive Tailwind layouts  
 
-Controlled components
+---
 
-Reusable UI components
+## 🛠️ Tech Stack
 
-Array filtering & sorting
+- Next.js  
+- React  
+- TypeScript  
+- Tailwind CSS  
+- Shadcn UI  
+- pnpm  
 
-Responsive Tailwind layouts
+---
 
-🛠️ Tech Stack
+## 🚀 Getting Started
 
-Next.js
-React
-TypeScript
-Tailwind CSS
-Shadcn UI
-pnpm
-
-🚀 Getting Started
-
-Install dependencies:
-
+### Install dependencies
+```bash
 pnpm install
-
-
-Start development server:
-
+Start development server
 pnpm dev
-
-
-Open in browser:
-
+Open in browser
 http://localhost:3000
-
 📂 Project Structure
 app/
   layout.tsx
@@ -71,19 +64,17 @@ components/ui/
 
 types/
   index.ts
-
 🧠 Application Architecture
+page.tsx → manages state and logic
 
-page.tsx manages state and logic
-SelectControl renders dropdowns
-ProductCard renders products
+SelectControl → renders dropdowns
 
-Data Flow:
+ProductCard → renders products
 
+Data Flow
 User → Dropdown → State Update → Filter/Sort → UI Re-render
 
 1️⃣ TypeScript Data Models
-
 File: types/index.ts
 
 export type SelectOption = {
@@ -97,10 +88,7 @@ export type Product = {
   price: number
   category: "electronics" | "clothing"
 }
-
-
 Why TypeScript?
-
 Prevents invalid data
 
 Provides autocomplete
@@ -108,36 +96,24 @@ Provides autocomplete
 Improves reliability
 
 2️⃣ Reusable Dropdown Component
-
 File: components/select-control.tsx
 
 This component is used for both filtering and sorting.
 
-Key concept: Controlled Component
-
-<Select value={value} onValueChange={onValueChange}>
-
-
+Key Concept: Controlled Component
 Flow:
 
-User selects option
-→ onValueChange()
-→ Parent state updates
-→ React re-renders UI
+User selects option → onValueChange() → Parent state updates → React re-renders UI
 
 This pattern is called Lifting State Up.
 
 3️⃣ Product Card Component
-
 File: components/product-card.tsx
 
 Cards include hover animation:
 
 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg
-
-
-Effect:
-
+Hover Effect
 Card moves upward on hover
 
 Shadow increases
@@ -147,24 +123,19 @@ Smooth transition animation
 This creates a modern floating card UI.
 
 4️⃣ State Management
-
 File: app/page.tsx
 
 const [filterCategory, setFilterCategory] = useState("all")
 const [sortBy, setSortBy] = useState("default")
-
-
 filterCategory → controls filtering
+
 sortBy → controls sorting
 
 🔍 Filtering Logic
 let visibleProducts = PRODUCTS.filter((p) =>
   filterCategory === "all" ? true : p.category === filterCategory
 )
-
-
-Steps:
-
+Steps
 Loop through products
 
 If "All" selected → show all
@@ -179,20 +150,17 @@ if (sortBy === "low") {
 if (sortBy === "high") {
   visibleProducts.sort((a, b) => b.price - a.price)
 }
-
-
 Low → High: a.price - b.price
+
 High → Low: b.price - a.price
 
 📱 Responsive Layout
 grid grid-cols-1 md:grid-cols-2 gap-10
-
-
 Mobile → 1 column
+
 Desktop → 2 columns
 
 🔄 Application Flow
-
 User selects category
 
 User selects sort option
@@ -204,7 +172,6 @@ Products are sorted
 React updates UI automatically
 
 🎓 Learning Outcomes
-
 This project teaches:
 
 React component architecture
