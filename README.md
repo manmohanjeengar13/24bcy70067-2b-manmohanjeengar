@@ -2,18 +2,17 @@
 
 **Next.js • React • TypeScript • Tailwind • Shadcn UI**
 
-A modern web application that allows users to filter and sort products dynamically using dropdown controls.  
-This project demonstrates React state management, reusable components, array filtering, sorting, and responsive UI design.
+A modern web application that allows users to filter and sort products dynamically using dropdown controls. This project demonstrates React state management, reusable components, array filtering, sorting, and responsive UI design.
 
 ---
 
 ## 🌐 Features
 
-- Filter products by category
-- Sort products by price (Low → High / High → Low)
-- Responsive product cards
-- Smooth hover animations
-- Instant UI updates using React state
+- ✅ Filter products by category
+- 📊 Sort products by price (Low → High / High → Low)
+- 📱 Responsive product cards
+- ✨ Smooth hover animations
+- ⚡ Instant UI updates using React state
 
 ---
 
@@ -31,52 +30,83 @@ To build a dynamic product filter that demonstrates:
 
 ## 🛠️ Tech Stack
 
-- Next.js  
-- React  
-- TypeScript  
-- Tailwind CSS  
-- Shadcn UI  
-- pnpm  
+- [Next.js](https://nextjs.org/)
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Shadcn UI](https://ui.shadcn.com/)
+- [pnpm](https://pnpm.io/)
 
 ---
 
 ## 🚀 Getting Started
 
 ### Install dependencies
+
 ```bash
 pnpm install
-Start development server
+```
+
+### Start development server
+
+```bash
 pnpm dev
-Open in browser
+```
+
+### Open in browser
+
+```
 http://localhost:3000
-📂 Project Structure
+```
+
+---
+
+## 📂 Project Structure
+
+```
 app/
-  layout.tsx
-  page.tsx
-  globals.css
+  ├── layout.tsx
+  ├── page.tsx
+  └── globals.css
 
 components/
-  product-card.tsx
-  select-control.tsx
+  ├── product-card.tsx
+  └── select-control.tsx
 
 components/ui/
-  (Shadcn UI components)
+  └── (Shadcn UI components)
 
 types/
-  index.ts
-🧠 Application Architecture
+  └── index.ts
+```
+
+---
+
+## 🧠 Application Architecture
+
+```
 page.tsx → manages state and logic
-
+    ↓
 SelectControl → renders dropdowns
-
+    ↓
 ProductCard → renders products
+```
 
-Data Flow
+### Data Flow
+
+```
 User → Dropdown → State Update → Filter/Sort → UI Re-render
+```
 
-1️⃣ TypeScript Data Models
-File: types/index.ts
+---
 
+## 📝 Code Explanation
+
+### 1️⃣ TypeScript Data Models
+
+**File:** `types/index.ts`
+
+```typescript
 export type SelectOption = {
   value: string
   label: string
@@ -88,61 +118,149 @@ export type Product = {
   price: number
   category: "electronics" | "clothing"
 }
-Why TypeScript?
-Prevents invalid data
+```
 
-Provides autocomplete
+**Why TypeScript?**
+- ✅ Prevents invalid data
+- ✅ Provides autocomplete
+- ✅ Improves reliability
 
-Improves reliability
+---
 
-2️⃣ Reusable Dropdown Component
-File: components/select-control.tsx
+### 2️⃣ Reusable Dropdown Component
 
-This component is used for both filtering and sorting.
+**File:** `components/select-control.tsx`
 
-Key Concept: Controlled Component
+```typescript
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { SelectOption } from "@/types"
+
+type SelectControlProps = {
+  label: string
+  options: SelectOption[]
+  value: string
+  onValueChange: (value: string) => void
+}
+
+export function SelectControl({
+  label,
+  options,
+  value,
+  onValueChange,
+}: SelectControlProps) {
+  return (
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium">{label}</label>
+      <Select value={value} onValueChange={onValueChange}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  )
+}
+```
+
+**Key Concept: Controlled Component**
+
 Flow:
-
+```
 User selects option → onValueChange() → Parent state updates → React re-renders UI
+```
 
-This pattern is called Lifting State Up.
+This pattern is called **Lifting State Up**.
 
-3️⃣ Product Card Component
-File: components/product-card.tsx
+---
 
-Cards include hover animation:
+### 3️⃣ Product Card Component
 
+**File:** `components/product-card.tsx`
+
+```typescript
+import { Product } from "@/types"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
+type ProductCardProps = {
+  product: Product
+}
+
+export function ProductCard({ product }: ProductCardProps) {
+  return (
+    <Card className="transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <CardHeader>
+        <CardTitle>{product.name}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-2xl font-bold">${product.price}</p>
+        <p className="text-sm text-muted-foreground capitalize">
+          {product.category}
+        </p>
+      </CardContent>
+    </Card>
+  )
+}
+```
+
+**Cards include hover animation:**
+
+```css
 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg
-Hover Effect
-Card moves upward on hover
+```
 
-Shadow increases
+**Hover Effect:**
+- ⬆️ Card moves upward on hover
+- 🌟 Shadow increases
+- ⏱️ Smooth transition animation
 
-Smooth transition animation
+This creates a modern **floating card UI**.
 
-This creates a modern floating card UI.
+---
 
-4️⃣ State Management
-File: app/page.tsx
+### 4️⃣ State Management
 
+**File:** `app/page.tsx`
+
+```typescript
 const [filterCategory, setFilterCategory] = useState("all")
 const [sortBy, setSortBy] = useState("default")
-filterCategory → controls filtering
+```
 
-sortBy → controls sorting
+- `filterCategory` → controls filtering
+- `sortBy` → controls sorting
 
-🔍 Filtering Logic
+---
+
+### 🔍 Filtering Logic
+
+```typescript
 let visibleProducts = PRODUCTS.filter((p) =>
   filterCategory === "all" ? true : p.category === filterCategory
 )
-Steps
-Loop through products
+```
 
-If "All" selected → show all
+**Steps:**
+1. Loop through products
+2. If "All" selected → show all
+3. Otherwise → match category
 
-Otherwise → match category
+---
 
-🔃 Sorting Logic
+### 🔃 Sorting Logic
+
+```typescript
 if (sortBy === "low") {
   visibleProducts.sort((a, b) => a.price - b.price)
 }
@@ -150,38 +268,83 @@ if (sortBy === "low") {
 if (sortBy === "high") {
   visibleProducts.sort((a, b) => b.price - a.price)
 }
-Low → High: a.price - b.price
+```
 
-High → Low: b.price - a.price
+- **Low → High:** `a.price - b.price`
+- **High → Low:** `b.price - a.price`
 
-📱 Responsive Layout
-grid grid-cols-1 md:grid-cols-2 gap-10
-Mobile → 1 column
+---
 
-Desktop → 2 columns
+### 📱 Responsive Layout
 
-🔄 Application Flow
-User selects category
+```typescript
+<div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+  {visibleProducts.map((product) => (
+    <ProductCard key={product.id} product={product} />
+  ))}
+</div>
+```
 
-User selects sort option
+- 📱 **Mobile** → 1 column
+- 💻 **Desktop** → 2 columns
 
-Products are filtered
+---
 
-Products are sorted
+## 🔄 Application Flow
 
-React updates UI automatically
+```
+1. User selects category
+   ↓
+2. User selects sort option
+   ↓
+3. Products are filtered
+   ↓
+4. Products are sorted
+   ↓
+5. React updates UI automatically
+```
 
-🎓 Learning Outcomes
+---
+
+## 🎓 Learning Outcomes
+
 This project teaches:
 
-React component architecture
+- ⚛️ React component architecture
+- 🎯 Props & state management
+- 🎮 Controlled components
+- 🔍 Array filtering & sorting
+- 🎨 Tailwind responsive design
+- 🚀 Next.js App Router basics
 
-Props & state
+---
 
-Controlled components
+## 📸 Screenshots
 
-Array filtering & sorting
+> Add your application screenshots here
 
-Tailwind responsive design
+---
 
-Next.js App Router basics
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+## 👨‍💻 Author
+
+**Manmohan Jeengar**
+- GitHub: [@manmohanjeengar13](https://github.com/manmohanjeengar13)
+- Roll No: 24BCY70067
+
+---
+
+<div align="center">
+  Made with ❤️ using Next.js and React
+</div>
