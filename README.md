@@ -1,36 +1,220 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🛍️ Dynamic Product Filter
 
-## Getting Started
+Next.js • React • TypeScript • Tailwind • Shadcn UI
 
-First, run the development server:
+A modern web application that allows users to filter and sort products dynamically using dropdown controls.
+This project demonstrates React state management, reusable components, array filtering, sorting, and responsive UI design.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
+🌐 Features
+
+Filter products by category
+
+Sort products by price (Low → High / High → Low)
+
+Responsive product cards
+
+Smooth hover animations
+
+Instant UI updates using React state
+
+🎯 Project Aim
+
+To build a dynamic product filter that demonstrates:
+
+React state management
+
+Controlled components
+
+Reusable UI components
+
+Array filtering & sorting
+
+Responsive Tailwind layouts
+
+🛠️ Tech Stack
+
+Next.js
+React
+TypeScript
+Tailwind CSS
+Shadcn UI
+pnpm
+
+🚀 Getting Started
+
+Install dependencies:
+
+pnpm install
+
+
+Start development server:
+
 pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open in browser:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+http://localhost:3000
 
-## Learn More
+📂 Project Structure
+app/
+  layout.tsx
+  page.tsx
+  globals.css
 
-To learn more about Next.js, take a look at the following resources:
+components/
+  product-card.tsx
+  select-control.tsx
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+components/ui/
+  (Shadcn UI components)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+types/
+  index.ts
 
-## Deploy on Vercel
+🧠 Application Architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+page.tsx manages state and logic
+SelectControl renders dropdowns
+ProductCard renders products
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Data Flow:
+
+User → Dropdown → State Update → Filter/Sort → UI Re-render
+
+1️⃣ TypeScript Data Models
+
+File: types/index.ts
+
+export type SelectOption = {
+  value: string
+  label: string
+}
+
+export type Product = {
+  id: number
+  name: string
+  price: number
+  category: "electronics" | "clothing"
+}
+
+
+Why TypeScript?
+
+Prevents invalid data
+
+Provides autocomplete
+
+Improves reliability
+
+2️⃣ Reusable Dropdown Component
+
+File: components/select-control.tsx
+
+This component is used for both filtering and sorting.
+
+Key concept: Controlled Component
+
+<Select value={value} onValueChange={onValueChange}>
+
+
+Flow:
+
+User selects option
+→ onValueChange()
+→ Parent state updates
+→ React re-renders UI
+
+This pattern is called Lifting State Up.
+
+3️⃣ Product Card Component
+
+File: components/product-card.tsx
+
+Cards include hover animation:
+
+transition-all duration-300 hover:-translate-y-1 hover:shadow-lg
+
+
+Effect:
+
+Card moves upward on hover
+
+Shadow increases
+
+Smooth transition animation
+
+This creates a modern floating card UI.
+
+4️⃣ State Management
+
+File: app/page.tsx
+
+const [filterCategory, setFilterCategory] = useState("all")
+const [sortBy, setSortBy] = useState("default")
+
+
+filterCategory → controls filtering
+sortBy → controls sorting
+
+🔍 Filtering Logic
+let visibleProducts = PRODUCTS.filter((p) =>
+  filterCategory === "all" ? true : p.category === filterCategory
+)
+
+
+Steps:
+
+Loop through products
+
+If "All" selected → show all
+
+Otherwise → match category
+
+🔃 Sorting Logic
+if (sortBy === "low") {
+  visibleProducts.sort((a, b) => a.price - b.price)
+}
+
+if (sortBy === "high") {
+  visibleProducts.sort((a, b) => b.price - a.price)
+}
+
+
+Low → High: a.price - b.price
+High → Low: b.price - a.price
+
+📱 Responsive Layout
+grid grid-cols-1 md:grid-cols-2 gap-10
+
+
+Mobile → 1 column
+Desktop → 2 columns
+
+🔄 Application Flow
+
+User selects category
+
+User selects sort option
+
+Products are filtered
+
+Products are sorted
+
+React updates UI automatically
+
+🎓 Learning Outcomes
+
+This project teaches:
+
+React component architecture
+
+Props & state
+
+Controlled components
+
+Array filtering & sorting
+
+Tailwind responsive design
+
+Next.js App Router basics
